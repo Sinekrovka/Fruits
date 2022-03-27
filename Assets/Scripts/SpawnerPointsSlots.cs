@@ -24,22 +24,10 @@ public class SpawnerPointsSlots : MonoBehaviour
         
     }
     
-    public void SpawnMounts()
+    private void SpawnMounts()
     {
-        if (mounts.Count > 0)
-        {
-            foreach (var VARIABLE in mounts)
-            {
-                GameObject v = VARIABLE.gameObject;
-                mounts.Remove(VARIABLE);
-                Destroy(v);
-            }
-        }
         mounts = new List<Transform>();
         players = new List<Transform>();
-        
-        
-        Debug.Log(counts);
         for (int i = 0; i < counts; ++i)
         {
             PairsMountsPlayers.Pair pair = pairsData.GetRandomPair();
@@ -70,5 +58,18 @@ public class SpawnerPointsSlots : MonoBehaviour
         {
            MovingPoints.Inst.MoveForNextLoad(mounts);
         }
+    }
+
+    public void ClearMounts()
+    {
+        if (mounts.Count > 0)
+        {
+            foreach (var VARIABLE in mounts)
+            {
+                GameObject v = VARIABLE.gameObject;
+                Destroy(v);
+            }
+        }
+        SpawnMounts();
     }
 }

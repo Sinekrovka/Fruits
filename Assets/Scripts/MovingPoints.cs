@@ -49,6 +49,10 @@ public class MovingPoints : MonoBehaviour
         {
             spawnObjects[i].DOMove(postSpawnPoints.GetChild(i).position, 0.5f).SetEase(Ease.InOutBounce).OnComplete(delegate { MusicController.Instance.PlayCreate(); });
             yield return new WaitForSeconds(0.5f);
+            if (i.Equals(spawnObjects.Count - 1))
+            {
+                MovePlayerOnStartPoint();
+            }
         }
     }
 
@@ -56,10 +60,14 @@ public class MovingPoints : MonoBehaviour
     {
         for (int i = 0; i < mounts.Count; ++i)
         {
-            mounts[i].DOMoveY(-30f, 0.5f).OnComplete(delegate
+            if (i < mounts.Count - 1)
             {
-                SpawnerPointsSlots.Instance.SpawnMounts();
-            });
+                mounts[i].DOMoveY(-30f, 0.5f);
+            }
+            else
+            {
+                mounts[i].DOMoveY(-30f, 0.5f).OnComplete(SpawnerPointsSlots.Instance.ClearMounts);
+            }
         }
     }
 
